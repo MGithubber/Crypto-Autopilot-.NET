@@ -51,23 +51,23 @@
             {
               "kind": "v12.0",
               "location": "[parameters('resourceLocation')]",
-              "name": "cryptoautopilot-server",
+              "name": "hackatonazuresqlserver",
               "type": "Microsoft.Sql/servers",
               "apiVersion": "2017-10-01-preview"
             },
             {
               "sku": {
-                "name": "Basic",
-                "tier": "Basic",
-                "capacity": 5
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 10
               },
               "kind": "v12.0,user",
               "location": "[parameters('resourceLocation')]",
-              "name": "cryptoautopilot-server/TradingHistoryDB",
+              "name": "hackatonazuresqlserver/TradingHistoryDB",
               "type": "Microsoft.Sql/servers/databases",
               "apiVersion": "2017-10-01-preview",
               "dependsOn": [
-                "cryptoautopilot-server"
+                "hackatonazuresqlserver"
               ]
             }
           ]

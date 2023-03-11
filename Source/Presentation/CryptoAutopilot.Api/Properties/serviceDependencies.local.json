@@ -2,7 +2,7 @@
   "dependencies": {
     "mssql1": {
       "secretStore": null,
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/cryptoautopilot-server/databases/TradingHistoryDB",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hackatonazuresqlserver/databases/TradingHistoryDB",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:TradingHistoryDB"
     }

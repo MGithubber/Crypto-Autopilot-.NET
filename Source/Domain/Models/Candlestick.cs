@@ -7,7 +7,7 @@ namespace Domain.Models;
 public class Candlestick : IQuote, ICloneable
 {
     public required CurrencyPair CurrencyPair { get; init; } = default!;
-
+    
     public required DateTime Date { get; init; }
     public required decimal Open { get; init; }
     public required decimal High { get; init; }

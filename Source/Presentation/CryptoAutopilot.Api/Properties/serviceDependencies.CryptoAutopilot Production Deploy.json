@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/CryptoAutopilot-Hackaton/apis/CryptoAutopilot-Hackaton-Api",
+      "type": "apis.azure"
+    }
+  }
+}
