@@ -45,11 +45,16 @@ public class AddFuturesOrdersTests : FuturesTradesDBServiceTestsBase
         // Arrange
         var orders = this.FuturesOrderGenerator.Generate(10, $"default, {MarketOrder}, {SideBuy}, {OrderPositionLong}");
         var position = this.FuturesPositionsGenerator.Generate($"default, {PositionSideLong}");
+
+        var tran = await this.DbContext.Database.BeginTransactionAsync();
         await this.DbContext.FuturesPositions.AddAsync(position.ToDbEntity());
         await this.DbContext.SaveChangesAsync();
+        await tran.CommitAsync();
+
 
         // Act
         await this.SUT.AddFuturesOrdersAsync(orders, position.CryptoAutopilotId);
+
 
         // Assert
         this.DbContext.FuturesOrders.Select(x => x.ToDomainObject()).Should().BeEquivalentTo(orders);
@@ -61,11 +66,16 @@ public class AddFuturesOrdersTests : FuturesTradesDBServiceTestsBase
         // Arrange
         var orders = this.FuturesOrderGenerator.Generate(10, $"default, {LimitOrder}, {SideBuy}, {OrderPositionLong}");
         var position = this.FuturesPositionsGenerator.Generate($"default, {PositionSideLong}");
+
+        var tran = await this.DbContext.Database.BeginTransactionAsync();
         await this.DbContext.FuturesPositions.AddAsync(position.ToDbEntity());
         await this.DbContext.SaveChangesAsync();
+        await tran.CommitAsync();
+
 
         // Act
         var func = async () => await this.SUT.AddFuturesOrdersAsync(orders, position.CryptoAutopilotId);
+
 
         // Assert
         (await func.Should()

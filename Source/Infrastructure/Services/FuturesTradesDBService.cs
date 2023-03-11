@@ -85,7 +85,7 @@ public class FuturesTradesDBService : IFuturesTradesDBService
 
 
 
-        var futuresOrderDbEntities = futuresOrders.Select(order => order.ToDbEntity());
+        var futuresOrderDbEntities = futuresOrders.Select(order => order.ToDbEntity()).ToArray();
         if (positionId is not null)
         {
             var position = await this.DbContext.FuturesPositions.Where(x => x.CryptoAutopilotId == positionId).SingleAsync();
@@ -95,8 +95,8 @@ public class FuturesTradesDBService : IFuturesTradesDBService
                 throw new DbUpdateException("An error occurred while saving the entity changes. See the inner exception for details.", innerException);
             }
 
-            foreach (var item in futuresOrderDbEntities)
-                item.PositionId = position.Id;
+            foreach (var orderDbEntity in futuresOrderDbEntities)
+                orderDbEntity.PositionId = position.Id;
         }
 
         

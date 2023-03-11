@@ -52,7 +52,7 @@ public abstract class FuturesTradesDBServiceTestsBase
 
     protected const string LimitOrder = "LimitOrder";
     protected const string MarketOrder = "MarketOrder";
-    protected const string StatusCreated = "StatusCreated";
+    protected const string StatusFilled = "StatusFilled";
     protected const string SideBuy = "SideBuy";
     protected const string SideSell = "SideSell";
     protected const string OrderPositionLong = "PositionLong";
@@ -76,7 +76,7 @@ public abstract class FuturesTradesDBServiceTestsBase
             set.RuleFor(o => o.Type, OrderType.Market);
             set.RuleFor(o => o.TimeInForce, TimeInForce.ImmediateOrCancel);
         })
-        .RuleSet(StatusCreated, set => set.RuleFor(o => o.Status, OrderStatus.Created))
+        .RuleSet(StatusFilled, set => set.RuleFor(o => o.Status, OrderStatus.Filled))
         .RuleSet(SideBuy, set =>
         {
             set.RuleFor(o => o.Side, f => OrderSide.Buy);
