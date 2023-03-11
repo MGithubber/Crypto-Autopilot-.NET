@@ -48,5 +48,8 @@ public class FuturesOrderDbEntityConfiguration : IEntityTypeConfiguration<Future
 
         
         builder.ToTable("FuturesOrders", tableBuilder => tableBuilder.IsTemporal());
+
+
+        builder.ToTable(x => x.HasTrigger("OrdersValidationTrigger"));
     }
 }

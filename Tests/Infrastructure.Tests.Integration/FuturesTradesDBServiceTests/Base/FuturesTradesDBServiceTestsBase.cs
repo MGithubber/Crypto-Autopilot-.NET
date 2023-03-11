@@ -32,7 +32,7 @@ public abstract class FuturesTradesDBServiceTestsBase
 
     protected readonly Faker<FuturesPosition> FuturesPositionsGenerator = new Faker<FuturesPosition>()
         .RuleFor(p => p.CryptoAutopilotId, f => Guid.NewGuid())
-        .RuleFor(p => p.CurrencyPair, f => new CurrencyPair(f.Finance.Currency().Code, f.Finance.Currency().Code))
+        .RuleFor(p => p.CurrencyPair, f => new CurrencyPair("BTC", "USDT"))
         .RuleFor(p => p.Margin, f => f.Random.Decimal(1, 1000))
         .RuleFor(p => p.Leverage, f => f.Random.Decimal(0, 100))
         .RuleFor(p => p.EntryPrice, f => f.Random.Decimal(5000, 15000))
@@ -60,7 +60,7 @@ public abstract class FuturesTradesDBServiceTestsBase
     
     protected readonly Faker<FuturesOrder> FuturesOrderGenerator = new Faker<FuturesOrder>()
         .RuleFor(o => o.BybitID, f => Guid.NewGuid())
-        .RuleFor(o => o.CurrencyPair, f => new CurrencyPair(f.Finance.Currency().Code, f.Finance.Currency().Code))
+        .RuleFor(o => o.CurrencyPair, f => new CurrencyPair("BTC", "USDT"))
         .RuleFor(o => o.CreateTime, f => f.Date.Past(1))
         .RuleFor(o => o.UpdateTime, (f, p) => p.CreateTime.AddHours(f.Random.Int(0, 12)))
         .RuleFor(o => o.Price, f => f.Random.Decimal(5000, 15000))
@@ -112,7 +112,7 @@ public abstract class FuturesTradesDBServiceTestsBase
         optionsBuilder.UseSqlServer(this.ConnectionString);
         this.DbContext = new FuturesTradingDbContext(optionsBuilder.Options);
 
-        await this.DbContext.Database.EnsureCreatedAsync();
+        await this.DbContext.Database.MigrateAsync();
 
         this.SUT = new FuturesTradesDBService(this.DbContext);
 

@@ -2,6 +2,8 @@
 
 using Application.Data.Mapping;
 
+using Domain.Models;
+
 using Infrastructure.Tests.Integration.FuturesTradesDBServiceTests.Base;
 
 using Microsoft.EntityFrameworkCore;
