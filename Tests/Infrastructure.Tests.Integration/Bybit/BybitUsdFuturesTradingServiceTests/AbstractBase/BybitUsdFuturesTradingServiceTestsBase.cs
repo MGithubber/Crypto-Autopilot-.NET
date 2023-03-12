@@ -9,9 +9,17 @@ using CryptoExchange.Net.Objects;
 
 using Domain.Models;
 
+using FluentAssertions.Common;
+
 using Infrastructure.Services.Bybit;
 using Infrastructure.Services.General;
 using Infrastructure.Tests.Integration.Common;
+
+using MediatR;
+using MediatR.NotificationPublishers;
+using MediatR.Registration;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Tests.Integration.Bybit.BybitUsdFuturesTradingServiceTests.AbstractBase;
 
@@ -28,6 +36,7 @@ public abstract class BybitUsdFuturesTradingServiceTestsBase
     protected readonly IBybitFuturesAccountDataProvider FuturesAccount;
     protected readonly IBybitUsdFuturesMarketDataProvider MarketDataProvider;
     protected readonly IBybitUsdFuturesTradingApiClient TradingClient;
+    protected readonly IMediator Mediator;
 
     public BybitUsdFuturesTradingServiceTestsBase()
     {
@@ -44,7 +53,10 @@ public abstract class BybitUsdFuturesTradingServiceTestsBase
         this.TradingClient = new BybitUsdFuturesTradingApiClient(bybitClient.UsdPerpetualApi.Trading);
         this.MarketDataProvider = new BybitUsdFuturesMarketDataProvider(new DateTimeProvider(), bybitClient.UsdPerpetualApi.ExchangeData);
 
-        this.SUT = new BybitUsdFuturesTradingService(this.CurrencyPair, this.Leverage, this.FuturesAccount, this.MarketDataProvider, this.TradingClient);
+        var services = new ServiceCollection();
+        this.Mediator = new Mediator(services.BuildServiceProvider(), new ForeachAwaitPublisher());
+
+        this.SUT = new BybitUsdFuturesTradingService(this.CurrencyPair, this.Leverage, this.FuturesAccount, this.MarketDataProvider, this.TradingClient, this.Mediator);
     }
 
 

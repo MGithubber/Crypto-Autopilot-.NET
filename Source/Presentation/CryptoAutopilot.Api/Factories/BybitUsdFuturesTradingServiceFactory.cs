@@ -4,6 +4,8 @@ using Domain.Models;
 
 using Infrastructure.Services.Bybit;
 
+using MediatR;
+
 namespace CryptoAutopilot.Api.Factories;
 
 public class BybitUsdFuturesTradingServiceFactory
@@ -14,5 +16,6 @@ public class BybitUsdFuturesTradingServiceFactory
             Leverage,
             services.GetRequiredService<IBybitFuturesAccountDataProvider>(),
             services.GetRequiredService<IBybitUsdFuturesMarketDataProvider>(),
-            services.GetRequiredService<IBybitUsdFuturesTradingApiClient>());
+            services.GetRequiredService<IBybitUsdFuturesTradingApiClient>(),
+            services.GetRequiredService<IMediator>());
 }
