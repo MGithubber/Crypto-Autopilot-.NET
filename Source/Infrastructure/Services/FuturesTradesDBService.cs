@@ -214,6 +214,36 @@ public class FuturesTradesDBService : IFuturesTradesDBService
         await this.DbContext.FuturesOrders.AddRangeAsync(ordersDbEntities);
         await this.DbContext.SaveChangesAsync();
     }
+    public async Task UpdateFuturesPositionAsync(Guid positionId, FuturesPosition newPosition)
+    {
+        _ = newPosition ?? throw new ArgumentNullException(nameof(newPosition));
+
+
+        using var transaction = await this.BeginTransactionAsync();
+
+        var dbEntity = await this.DbContext.FuturesPositions.Where(x => x.CryptoAutopilotId == positionId).SingleOrDefaultAsync() ?? throw new DbUpdateException($"Did not find a position with crypto autopilot id {positionId}");
+        if (positionId != newPosition.CryptoAutopilotId)
+        {
+            var innerException = new ArgumentException("The position CryptoAutopilotId cannot be changed since it would not be valid");
+            throw new DbUpdateException("An error occurred while saving the entity changes. See the inner exception for details.", innerException);
+        }
+        else if (dbEntity.Side != newPosition.Side)
+        {
+            var innerException = new ArgumentException("The position side cannot be changed since it would not be valid");
+            throw new DbUpdateException("An error occurred while saving the entity changes. See the inner exception for details.", innerException);
+        }
+
+
+        dbEntity.CurrencyPair = newPosition.CurrencyPair.Name;
+        dbEntity.Side = newPosition.Side;
+        dbEntity.Margin = newPosition.Margin;
+        dbEntity.Leverage = newPosition.Leverage;
+        dbEntity.Quantity = newPosition.Quantity;
+        dbEntity.EntryPrice = newPosition.EntryPrice;
+        dbEntity.ExitPrice = newPosition.ExitPrice;
+
+        await this.DbContext.SaveChangesAsync();
+    }
 
 
     private static Task<ValidationResult> ValidateOrderNeedsPositionAsync(FuturesOrder futuresOrder)

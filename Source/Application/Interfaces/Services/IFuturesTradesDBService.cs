@@ -12,4 +12,5 @@ public interface IFuturesTradesDBService
     public Task DeleteFuturesOrderAsync(Guid bybitID);
 
     public Task AddFuturesPositionAsync(FuturesPosition position, IEnumerable<FuturesOrder> futuresOrders);
+    public Task UpdateFuturesPositionAsync(Guid bybitID, FuturesPosition position);
 }
